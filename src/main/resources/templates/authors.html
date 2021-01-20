@@ -3,23 +3,37 @@
 <head>
     <meta charset="UTF-8"/>
     <title>Spring Framework Guru</title>
+
+    <!-- Compiled and minified CSS -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
+
+    <!-- Compiled and minified JavaScript -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
+
+    <style>
+    .content {
+      max-width: 500px;
+      margin: auto;
+    }
+
+    </style>
 </head>
 <body>
-<h1>Authors List</h1>
+    <div class="content">
+        <h1>Authors List</h1>
+        <table class="highlight">
+            <tr>
+                <th>ID</th>
+                <th>firstName</th>
+                <th>lastName</th>
 
-<table>
-    <tr>
-        <th>ID</th>
-        <th>firstName</th>
-        <th>lastName</th>
-
-    </tr>
-    <tr th:each="author : ${authors}">
-        <td th:text="${author.id}"></td>
-        <td th:text="${author.firstName}"></td>
-        <td th:text="${author.lastName}"></td>
-    </tr>
-</table>
-
+            </tr>
+            <tr th:each="author : ${authors}">
+                <td th:text="${author.id}"></td>
+                <td th:text="${author.firstName}"></td>
+                <td th:text="${author.lastName}"></td>
+            </tr>
+        </table>
+    </div>
 </body>
 </html>
