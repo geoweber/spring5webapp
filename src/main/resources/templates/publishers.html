@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <!-- Compiled and minified CSS -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
+
+    <!-- Compiled and minified JavaScript -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
+
+    <style>
+        .content {
+          max-width: 500px;
+          margin: auto;
+        }
+
+    </style>
+</head>
+<body>
+<div class="content">
+    <h1>Publishers List</h1>
+
+    <table class="highlight">
+        <tr>
+            <th>id</th>
+            <th>name</th>
+            <th>addressLine</th>
+            <th>city</th>
+            <th>state</th>
+            <th>zip</th>
+        </tr>
+
+        <tr th:each="publisher : ${publishers}">
+            <td><span th:text="${publisher.id}"> Id </span></td>
+            <td><span th:text="${publisher.name}"> Name </span></td>
+            <td><span th:text="${publisher.addressLine}"> AddressLine </span></td>
+            <td><span th:text="${publisher.city}">  City</span></td>
+            <td><span th:text="${publisher.state}"> State </span></td>
+            <td><span th:text="${publisher.zip}"> Zip </span></td>
+        </tr>
+    </table>
+
+</div>
+
+</body>
+</html>

@@ -1,6 +1,9 @@
 package guru.springframework.spring5webapp.domain;
 
 import lombok.Data;
+import lombok.NoArgsConstructor;
+import lombok.NonNull;
+import lombok.RequiredArgsConstructor;
 
 import javax.persistence.*;
 import java.util.HashSet;
@@ -9,24 +12,38 @@ import java.util.Set;
 
 @Data
 @Entity
+@NoArgsConstructor
+@RequiredArgsConstructor
 public class Author {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
 
+    @NonNull
     private String firstName;
+    @NonNull
     private String lastName;
 
     @ManyToMany(mappedBy = "authors")
     private Set<Book> books = new HashSet<>();
 
-    public Author(String firstName, String lastName) {
-        this.firstName = firstName;
-        this.lastName = lastName;
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof Author)) return false;
+
+        Author author = (Author) o;
+
+        if (!Objects.equals(firstName, author.firstName)) return false;
+        return Objects.equals(lastName, author.lastName);
     }
 
-    public Author() {
+    @Override
+    public int hashCode() {
+        int result = firstName != null ? firstName.hashCode() : 0;
+        result = 31 * result + (lastName != null ? lastName.hashCode() : 0);
+        return result;
     }
 
     @Override
@@ -39,18 +56,5 @@ public class Author {
                 '}';
     }
 
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
 
-        Author author = (Author) o;
-
-        return Objects.equals(id, author.id);
-    }
-
-    @Override
-    public int hashCode() {
-        return id != null ? id.hashCode() : 0;
-    }
 }

@@ -1,53 +1,57 @@
 package guru.springframework.spring5webapp.domain;
 
-import lombok.Data;
-import lombok.Generated;
+import lombok.*;
 
 import javax.persistence.*;
+import java.util.Date;
 import java.util.HashSet;
 import java.util.Objects;
 import java.util.Set;
 
+
+
 @Data
 @Entity
+@NoArgsConstructor
+@RequiredArgsConstructor
 public class Book {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
 
+    @NonNull
     private String title;
+    @NonNull
     private String isbn;
 
-    @ManyToOne
+    @NonNull
+    private Date created;
+
+    @ManyToOne( fetch = FetchType.LAZY, optional = false)
     private Publisher publisher;
 
-    @ManyToMany
-    @JoinTable(name="author_book", joinColumns = @JoinColumn(name = "book_id"),
-            inverseJoinColumns = @JoinColumn(name="author_id"))
-    private Set<Author> authors= new HashSet<>();
-
-    public Book(String title, String isbn) {
-        this.title = title;
-        this.isbn = isbn;
-    }
-
-    public Book() {
-    }
+    @NonNull
+    @ManyToMany(cascade = {CascadeType.PERSIST, CascadeType.MERGE})
+    @JoinTable()
+    private Set<Author> authors = new HashSet<>();
 
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
+        if (!(o instanceof Book)) return false;
 
         Book book = (Book) o;
 
-        return Objects.equals(id, book.id);
+        if (!Objects.equals(title, book.title)) return false;
+        return Objects.equals(isbn, book.isbn);
     }
 
     @Override
     public int hashCode() {
-        return id != null ? id.hashCode() : 0;
+        int result = title != null ? title.hashCode() : 0;
+        result = 31 * result + (isbn != null ? isbn.hashCode() : 0);
+        return result;
     }
 
     @Override
@@ -56,7 +60,9 @@ public class Book {
                 "id=" + id +
                 ", title='" + title + '\'' +
                 ", isbn='" + isbn + '\'' +
-                ", authors=" + authors +
+                ", created=" + created +
+                ", publisher=" + publisher.getName() +
+                ", authors=" + authors.size() +
                 '}';
     }
 }
